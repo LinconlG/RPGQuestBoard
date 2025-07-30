@@ -23,11 +23,22 @@
     private Quest quest = new();
     private IBrowserFile? file;
 
-
+    private bool AreFieldsValid()
+    {
+        var a = !string.IsNullOrWhiteSpace(quest.Title)
+            && !string.IsNullOrWhiteSpace(quest.System)
+            && !string.IsNullOrWhiteSpace(quest.Description)
+            && !string.IsNullOrWhiteSpace(quest.MasterName)
+            && !string.IsNullOrWhiteSpace(quest.Contact);
+        return a;
+    }
 
     private async Task HandleSubmit()
     {
-        QuestService.AddQuest(quest);
+        if(AreFieldsValid()){
+                    QuestService.AddQuest(quest);
         Nav.NavigateTo("/");
+        }
+
     }
 }
