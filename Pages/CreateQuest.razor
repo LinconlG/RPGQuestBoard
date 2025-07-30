@@ -1,0 +1,33 @@
+﻿@page "/create"
+@inject QuestService QuestService
+@inject NavigationManager Nav
+@using RPGQuestBoard.Models
+@using Microsoft.AspNetCore.Components.Forms
+@using RPGQuestBoard.Services
+<link href="css/site.css" rel="stylesheet" />
+
+<h2>➕ Nova Quest</h2>
+<div class="criar">
+    <EditForm Model="@quest" OnValidSubmit="HandleSubmit">
+    <InputText @bind-Value="quest.Title" placeholder="Título" />
+    <InputText @bind-Value="quest.System" placeholder="Sistema" />
+    <InputTextArea @bind-Value="quest.Description" placeholder="Descrição curta" />
+    <InputText @bind-Value="quest.MasterName" placeholder="Nome do mestre" />
+    <InputText @bind-Value="quest.Contact" placeholder="Contato" />
+    <button type="submit">Criar Quest</button>
+</EditForm>
+</div>
+
+
+@code {
+    private Quest quest = new();
+    private IBrowserFile? file;
+
+
+
+    private async Task HandleSubmit()
+    {
+        QuestService.AddQuest(quest);
+        Nav.NavigateTo("/");
+    }
+}

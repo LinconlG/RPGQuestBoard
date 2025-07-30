@@ -1,3 +1,38 @@
 ﻿@page "/"
+@using RPGQuestBoard.Models
+@using RPGQuestBoard.Services
+@inject QuestService QuestService
+@inject NavigationManager navigationManager
 
-<h1>Hello, world!</h1>
+<link href="css/site.css" rel="stylesheet" />
+
+<div class="header-container">
+    <h1 class="text-center" style="color: white">📜 Quadro de Quests</h1>
+    <button class="nav-button" @onclick="NavigateToOtherPage">Criar Quest</button>
+</div>
+
+<div class="quest-grid">
+    @foreach (var quest in quests)
+    {
+        <div class="quest-card">
+            <h3>@quest.Title (@quest.System)</h3>
+            <p>@quest.Description</p>
+            <p><strong>@quest.MasterName</strong> — @quest.Contact</p>
+        </div>
+    }
+</div>
+
+@code {
+    private List<Quest> quests = new();
+
+    private void NavigateToOtherPage()
+    {
+        navigationManager.NavigateTo("/create");
+    }
+
+    protected override void OnInitialized()
+    {
+        quests = QuestService.GetQuests();
+    }
+
+}
